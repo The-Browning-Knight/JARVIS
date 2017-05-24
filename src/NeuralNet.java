@@ -1,46 +1,52 @@
 public class NeuralNet {
-	LList<LList<Node>> nodes;
+	LList<Node> nodes;
 
-	public NeuralNet(int inC, int outC){
-		for(int i = 0; i < inC + outC; i++){
-			nodes.append(new LList<Node>());
-		}
-		for(int i = 0; i < inC; i++){
-			nodes.moveToPos(i);
-			nodes.getValue().append(new Node(0));
-		}
-		for(int i = inC; i < outC + inC; i++){
-			nodes.moveToPos(i);
-			nodes.getValue().append(new Node(2));
-		}
-	}
-
+	//Need to find a way to find genes for CGene transcription
 	public NeuralNet(Genome g){
-		LList<Integer> nodeNames = new LList<Integer>();
-		boolean tempIn = false;
-		boolean tempOut = false;
 		for(int i = 0; i < g.genes.length(); i++){
-			for(int n = 0; n < nodeNames.length(); n++){
-				if(nodeNames.getValue() == g.genes.getValue().in){
-					tempIn = true;
-				}
-				if(nodeNames.getValue() == g.genes.getValue().out){
-					tempOut = true;
-				}
+			if(g.genes.getValue().geneType() == 1) {
+				nodes.append(new Node(g.genes));
 			}
-			if(!tempIn){
-				nodeNames.append(g.genes.getValue().in);
-			}
-			if(!tempIn){
-				nodeNames.append(g.genes.getValue().out);	
+			g.genes.next()
+		}
+		for(int i = 0; i < g.genes.length(); i++){
+			if(g.getValue().geneType() == 0){
+				for(int n = 0; n < nodes.length(); n++){
+					if(nodes.getValue() == g.getValue().out){
+						nodes.getValue().children.append(new Connection(g.genes.getValue().weight))
+					}
+					nodes.next();
+				}
 			}
 			g.genes.next();
 		}
-		for(int i = 0; i < nodeNames.length(); i++){
-			nodes.append(new LList<Node>());
-			nodes.getValue().append(nodeNames.getValue());
+		temp = new Node(3, nodes.length());
+		nodes.append(temp);
+		for(int i = 0; i < nodes.length(); i++){
+			if(nodes.getValue().type == 2){
+				temp.children.append(nodes.getValue());
+			}
 			nodes.next();
 		}
 	}
 
+	public Float activate(LList<Float> in){
+		Node temp;
+		//We could speed this up by assuming that it's at the end
+		for(int i = 0; i < nodes.length(); i++){
+			if(nodes.getValue().type == 3){
+				temp = nodes.getValue();
+			}
+			nodes.next();
+		}
+		activateHelp(temp); 
+	}
+	
+	private Float activateHelp(Node n){
+		Float sum = 0;
+		for(int i = 0; i < n.children.length(); i++){
+			sum += n.children.getValue().weight * activateHelp(n.children.getValue().in);
+		}
+		return sum;
+	}
 }

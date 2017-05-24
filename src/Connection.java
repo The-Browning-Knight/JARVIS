@@ -1,9 +1,11 @@
 public class Connection {
 	Node in;
 	Node out;
-	float weight;
+	Float weight;
 	
-	Connection(){
-		
+	Connection(Node i, Node o, float w){
+		in = i;
+		out = o;
+		weight = w;
 	}
 }
