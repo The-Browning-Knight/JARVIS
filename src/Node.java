@@ -16,17 +16,4 @@ public class Node {
 		children = new LList<Connection>();
 		type = g.type;
 	}
-	
-	public int activate(){
-		if(type == 0){
-			return value;
-		}
-		float sum = 0;
-		for(int i = 0; i < children.length(); i++){
-			sum += (children.getValue().weight * children.getValue().in.activate());
-			children.next();
-		}
-		//Add activation function
-		return sum;
-	}
 }

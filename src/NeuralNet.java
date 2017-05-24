@@ -1,7 +1,6 @@
 public class NeuralNet {
 	LList<Node> nodes;
 
-	//Need to find a way to find genes for CGene transcription
 	public NeuralNet(Genome g){
 		for(int i = 0; i < g.genes.length(); i++){
 			if(g.genes.getValue().geneType() == 1) {
@@ -13,7 +12,7 @@ public class NeuralNet {
 			if(g.getValue().geneType() == 0){
 				for(int n = 0; n < nodes.length(); n++){
 					if(nodes.getValue() == g.getValue().out){
-						nodes.getValue().children.append(new Connection(g.genes.getValue().weight))
+						nodes.getValue().children.append(new Connection(findNode(g.getValue().in), findNode(g.getValue().out), g.genes.getValue().enabled, g.genes.getValue().weight))
 					}
 					nodes.next();
 				}
@@ -25,6 +24,15 @@ public class NeuralNet {
 		for(int i = 0; i < nodes.length(); i++){
 			if(nodes.getValue().type == 2){
 				temp.children.append(nodes.getValue());
+			}
+			nodes.next();
+		}
+	}
+	
+	private Node findNode(int a){
+		for(int i = 0; i < nodes.length(); i++){
+			if(nodes.getValue().name == a){
+				return nodes.getValue();
 			}
 			nodes.next();
 		}
