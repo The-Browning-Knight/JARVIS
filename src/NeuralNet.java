@@ -1,5 +1,6 @@
 public class NeuralNet {
 	LList<Node> nodes;
+	double fitness;
 
 	public NeuralNet(Genome g){
 		nodes = new LList<Node>();

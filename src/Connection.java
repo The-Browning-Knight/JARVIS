@@ -1,10 +1,10 @@
 public class Connection {
 	Node in;
 	Node out;
-	Float weight;
+	double weight;
 	boolean enabled;
 	
-	Connection(Node i, Node o, boolean b, float w){
+	Connection(Node i, Node o, boolean b, double w){
 		in = i;
 		out = o;
 		enabled = b;

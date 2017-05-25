@@ -2,11 +2,15 @@ public class Generation {
 	LList<Species> members;
 	LList<Innovation> innovList;
 	
-	Generation(){
+	public Generation (LList<Innovation> i){
 		
+		innovList = i;
 	}
 	
-	public void reproduce(){
-		
+	public Generation reproduce(){
+		for(int i = 0; i < members.length(); i++){
+			
+			members.
+		}
 	}
 }

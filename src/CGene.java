@@ -1,7 +1,7 @@
 public class CGene extends Gene{
 	int hismark;
 	boolean enabled;
-	Float weight;
+	double weight;
 	int in;
 	int out;
 	
@@ -15,6 +15,10 @@ public class CGene extends Gene{
 	
 	public int geneType(){
 		return 0;
+	}
+	
+	public int hismark(){
+		return hismark;
 	}
 	
 	/**public boolean equals(Gene g){

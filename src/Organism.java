@@ -1,5 +1,5 @@
 public class Organism {
-	Genome genes;
+	Genome dna;
 	NeuralNet brain;
 	
 	Organism(){
