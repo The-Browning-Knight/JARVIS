@@ -19,16 +19,64 @@ public class Species {
 		disChance = r3;
 		noCrossChance = r4;
 		champClones = ct;
-
 	}
 
 	public Genome comGene(Genome a, Genome b){
+		Genome out = new Genome();
 		int temp;
-		for(int i = 0; i < a.genes.length(); i++){
-			for(int j = 0; j < b.genes.length(); j++){
-
-			}
+		a.genes.moveToPos(a.genes.length() - 1); 
+		b.genes.moveToPos(b.genes.length() - 1);
+		if(a.genes.getValue().hismark() > b.genes.getValue().hismark()){
+			temp = a.genes.getValue().hismark();
+		}else{
+			temp = b.genes.getValue().hismark();
 		}
+		Gene temp1 = null;
+		Gene temp2 = null;
+		for(int i = 0; i < temp; i++){
+			for(int j = 0; j < a.genes.length(); j++){
+				if(a.genes.getValue().hismark() == i){
+					temp1 = a.genes.getValue();
+				}
+			}
+			for(int j = 0; j < b.genes.length(); j++){
+				if(b.genes.getValue().hismark() == i){
+					temp2 = b.genes.getValue();
+				}
+			}
+			if(temp1 != null && temp2 != null){
+				if(temp1.enabled() && temp2.enabled()){
+					if(Math.random() > 0.5){
+						out.genes.append(temp1);
+					} else {
+						out.genes.append(temp2);
+					}
+				} else {
+					if(Math.random() > 0.5){
+						out.genes.append(temp1);
+					} else {
+						out.genes.append(temp2);
+					}
+					if(Math.random() > disChance){
+						out.genes.moveToPos(out.genes.length() - 1);
+						if(!out.genes.getValue().enabled()){
+							out.genes.getValue().setEnabled(!out.genes.getValue().enabled());
+						}
+					}
+				}
+			} else {
+				if(temp1 != null && temp2 == null){
+					out.genes.append(temp1);
+				} else {
+					if(temp1 == null && temp2 != null){
+						out.genes.append(temp2);
+					}
+				}
+			}
+			temp1 = null;
+			temp2 = null;
+		}
+		return out;
 	}
 
 	public Species reproduce(){
@@ -68,18 +116,21 @@ public class Species {
 		}
 		members.moveToStart();
 		int temp1;
+		Genome temp2;
 		for(int i = 0; i < members.length(); i++){
 			temp = Math.random();
 			if(temp > noCrossChance){
-				temp1 = Math.floor(members.length() * Math.random());
-				while(temp1 != i){
-					
+				temp1 = (int)Math.floor(members.length() * Math.random());
+				while(temp1 == i){
+					temp1 = (int)Math.floor(members.length() * Math.random());
 				}
+				members.moveToPos(temp1);
+				temp2  = members.getValue().dna;
+				members.moveToPos(i);
 				for(int j = 0; j < getFitness(); j++){
-					
+					members.append((new Organism(comGene(members.getValue().dna, temp2), this)));
 				}
 			}
-			member
 		}
 		return this;
 	}

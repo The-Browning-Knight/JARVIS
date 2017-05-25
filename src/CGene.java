@@ -1,6 +1,6 @@
 public class CGene extends Gene{
 	int hismark;
-	boolean enabled;
+	private boolean enabled;
 	double weight;
 	int in;
 	int out;
@@ -19,6 +19,14 @@ public class CGene extends Gene{
 	
 	public int hismark(){
 		return hismark;
+	}
+	
+	public boolean enabled(){
+		return enabled;
+	}
+	
+	public void setEnabled(boolean a){
+		enabled = a;
 	}
 	
 	/**public boolean equals(Gene g){
