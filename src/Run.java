@@ -17,7 +17,7 @@ public class Run {
 		double minFitGain;
 		int maxStag;
 		LList<LList<Double>> inputs = new LList<LList<Double>>();
-		LList<Integer> outputs = new LList<Integer>();
+		LList<Double> outputs = new LList<Double>();
 		
 		Neat Darwin = new Neat(inCount, outCount, compatibility1, compatibility2, compatibility3, mutChance, uniChance, disChance, noCrossChance, cloneCount, nodeMutChance, linkMutChance, interMateChance, maxDis, minFitGain, maxStag);
 		Darwin.run(inputs, outputs);
