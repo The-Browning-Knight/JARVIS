@@ -121,9 +121,12 @@ public class Species {
 					}
 				}else{
 					members.getValue().dna.genes.moveToPos((int) Math.floor(members.getValue().dna.genes.length() * Math.random()));
-					if (members.getValue().dna.genes.getValue().geneType() == 0){
-						((CGene)members.getValue().dna.genes.getValue()).weight = Math.random();
+					if(members.getValue().dna.genes.getValue() != null){
+						if (members.getValue().dna.genes.getValue().geneType() == 0){
+							((CGene)members.getValue().dna.genes.getValue()).weight = Math.random();
+						}						
 					}
+
 				}
 			}
 			members.next();
@@ -153,13 +156,16 @@ public class Species {
 	public double getTotalFitness(){
 		double temp = 0.0;
 		members.moveToStart();
+		System.out.println("Members length!!!!! " + members.length());
 		for(int i = 0; i < members.length(); i++){
-			System.out.println(members.getValue().dna.genes.length());
-			members.moveToPos(i);
+			//System.out.println(members.getValue().dna.genes.length());
+			members.next();
 		}
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			temp  += members.getValue().brain.fitness/findDistance(members.getValue().dna);
+			members.getValue().dna.genes.moveToStart();
+			members.getValue().dna.genes.next();
 			members.next();
 		}
 		return temp;
@@ -170,18 +176,20 @@ public class Species {
 		int excess = 0;
 		int disjoint = 0;
 		double weightDiff = 0f;
-		members.prev();
-		prevMember = members.getValue();
-		members.next();
 		prevMember.dna.genes.moveToEnd();
 		prevMember.dna.genes.prev();
 		g.genes.moveToEnd();
 		g.genes.prev();
-		if(g.genes.getValue().hismark() < prevMember.dna.genes.getValue().hismark()){
-			max = g.genes.getValue().hismark();
-		}else{
-			max = prevMember.dna.genes.getValue().hismark();
+		if (g.genes.getValue() != null) {
+			
+			if(g.genes.getValue().hismark() < prevMember.dna.genes.getValue().hismark()){
+				max = g.genes.getValue().hismark();
+			}else{
+				max = prevMember.dna.genes.getValue().hismark();
+			}		
+			
 		}
+
 		boolean temp;
 		g.genes.moveToStart();
 		for(int i = 0; i < g.genes.length(); i++){

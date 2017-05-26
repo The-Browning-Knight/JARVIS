@@ -15,7 +15,7 @@ public class Run {
 		double interMateChance = 0.001;
 		
 		//?
-		double maxDis = 5;
+		double maxDis = 100;
 		
 		//?
 		double minFitGain = 0.01;
