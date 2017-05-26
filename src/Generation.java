@@ -1,19 +1,17 @@
 public class Generation {
-<<<<<<< HEAD
-	
+
 	LList<Species> members;
 	LList<Gene> innovList;
 	double prob1, prob2;
-	
+
 	public Generation (LList<Gene> i, LList<Species> m, double p1, double p2){
-		
+
 		members = m;
 		innovList = i;
-		
+
 		prob1 = p1;
 		prob2 = p2;
-		
-=======
+
 
 	LList<Species> members;
 	LList<Species> fullyEvolved;
@@ -36,26 +34,25 @@ public class Generation {
 		maxDis = mD;
 		minFitGain = mfg;
 		maxStag = ms;
->>>>>>> 3cec3059de8bd24803039278f030aeae4249532e
 	}
 
 	public Generation reproduce(){
 <<<<<<< HEAD
-		
+
 		for(int i = 0; i < members.length(); i++){
-			
+
 			LList<Organism> curr_members = members.getValue().members;
-			
+
 			for (int j = 0; j < curr_members.length(); j++) {
-				
+
 				double random = Math.random();
-				
+
 				if (random < prob1) {
-					
+
 					// add new node (innovation)
-					
+
 					NGene mostRecentNGene = null;
-					
+
 					// iterate from end of innov and check type to find most recent NGene
 					innovList.moveToEnd();
 					for (int k = 0; k < innovList.length(); k++) {
@@ -65,26 +62,26 @@ public class Generation {
 						}
 						innovList.prev();
 					}
-					
+
 					Gene innov = new NGene(mostRecentNGene.name + 1, 1, mostRecentNGene.hismark+1);
-					
+
 					innovList.append(innov);
-					
+
 				}
-				
+
 				random = Math.random();
-				
+
 				if (random < prob2) {
-					
-					
-					
+
+
+
 				}
-				
+
 			}
-			
+
 			members.next();
-			
-=======
+
+
 		LList<Species> temp = new LList<Species>();
 		for(int i = 0; i < members.length(); i++){
 			if(members.getValue().prevFit.length() > maxStag){
@@ -98,7 +95,7 @@ public class Generation {
 				members.getValue().enabled = false;
 				fullyEvolved.append(members.getValue());
 			}
->>>>>>> 3cec3059de8bd24803039278f030aeae4249532e
+
 		}
 
 		members = temp;
@@ -148,7 +145,7 @@ public class Generation {
 
 		LList<Organism> all = new LList<Organism>();
 
-		//Insert interspecial reproduction 
+		//Insert interspecial reproduction
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().members.moveToStart();
@@ -182,7 +179,7 @@ public class Generation {
 		double min;
 		double temp6;
 		for(int i = 0; i < all.length(); i++){
-			min = 0.0;				
+			min = 0.0;
 			temp3 = false;
 			members.moveToStart();
 			for(int j = 0; j < members.length(); j++){
@@ -211,9 +208,5 @@ public class Generation {
 		}
 		return this;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 3cec3059de8bd24803039278f030aeae4249532e
 }
