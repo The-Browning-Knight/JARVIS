@@ -1,7 +1,6 @@
 #Based off of SentDex's code
 import numpy as np
 import random
-from PIL import ImageGrab
 import cv2
 import time
 from numpy import ones,vstack
@@ -9,6 +8,7 @@ from numpy.linalg import lstsq
 from directkeys import PressKey, ReleaseKey, W, A, S, D
 from statistics import mean
 from getkeys import key_check
+from grabscreen import grab_screen
 import os
 
 # READ ANY KEYS PRESSED
@@ -213,7 +213,7 @@ def right():
 
 def main():
     # COUNTDOWN
-    for i in list(range(4)) [::-1]:
+    for i in list(range(5)) [::-1]:
         print(i+1)
         time.sleep(1)
     last_time = time.time()
@@ -222,9 +222,7 @@ def main():
     listOfMoves = [straight(), left(), right()]
     
     while True:
-        #0,40,800,640
-        screen =  np.array(ImageGrab.grab(bbox=(200, 300, 800, 600)))
-        #screen =  grab_screen(region=(0, 40, 800, 640))
+        screen =  grab_screen(region=(0, 40, 800, 640))
         screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
         # resize the screen to decrease computational time
         screen = cv2.resize(screen, (80, 60))
