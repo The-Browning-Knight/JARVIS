@@ -10,11 +10,13 @@ public class Node {
 		type = t;
 		name = n;
 		children = new LList<Connection>();
+		value = 0f;
 	}
 	
 	public Node(NGene g){
 		name = g.name;
 		children = new LList<Connection>();
 		type = g.type;
+		value = 0f;
 	}
 }

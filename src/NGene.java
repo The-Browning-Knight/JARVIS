@@ -14,6 +14,14 @@ public class NGene extends Gene{
 		return 1;
 	}
 	
+	public boolean enabled(){
+		return true;
+	}
+	
+	public void setEnabled(boolean a){
+	}
+	
+	
 	public int hismark(){
 		return hismark;
 	}

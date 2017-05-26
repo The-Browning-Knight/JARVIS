@@ -13,12 +13,14 @@ public class NeuralNet {
 		g.genes.moveToStart();
 		for(int i = 0; i < g.genes.length(); i++){
 			if(g.genes.getValue().geneType() == 0){
-				nodes.moveToStart();
-				for(int n = 0; n < nodes.length(); n++){
-					if(nodes.getValue().name == ((CGene)g.genes.getValue()).out){
-						nodes.getValue().children.append(new Connection(findNode(((CGene)g.genes.getValue()).in), findNode(((CGene)g.genes.getValue()).out), ((CGene)g.genes.getValue()).enabled, ((CGene)g.genes.getValue()).weight));
+				if(g.genes.getValue().enabled()){
+					nodes.moveToStart();
+					for(int n = 0; n < nodes.length(); n++){
+						if(nodes.getValue().name == ((CGene)g.genes.getValue()).out){
+							nodes.getValue().children.append(new Connection(findNode(((CGene)g.genes.getValue()).in), findNode(((CGene)g.genes.getValue()).out), ((CGene)g.genes.getValue()).enabled(), ((CGene)g.genes.getValue()).weight));
+						}
+						nodes.next();
 					}
-					nodes.next();
 				}
 			}
 			g.genes.next();

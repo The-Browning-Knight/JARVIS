@@ -16,12 +16,11 @@ public class Run {
 		gabe1.genes.append(new CGene(3, 6, 1, true, 2));
 		gabe1.genes.append(new CGene(4, 6, 1, true, 10));
 		gabe1.genes.append(new CGene(5, 6, 1, true, 100));
-		/**NeuralNet gabe2 = new NeuralNet(gabe1);
+		NeuralNet gabe2 = new NeuralNet(gabe1);
 		LList<Float> gabe3 = new LList<Float>();
 		gabe3.append(1F);
 		gabe3.append(1F);
 		System.out.println(gabe2.activate(gabe3));
-		*/
 		gabe1.sort();
 		gabe1.genes.moveToStart();
 		for(int i = 0; i < gabe1.genes.length(); i++){

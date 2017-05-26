@@ -1,8 +1,11 @@
 public class Organism {
 	Genome dna;
 	NeuralNet brain;
+	Species spec;
 	
-	Organism(){
-		
+	public Organism(Genome g, Species sp){
+		dna = g;
+		brain = new NeuralNet(g);
+		spec = sp;
 	}
 }
