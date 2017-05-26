@@ -12,8 +12,18 @@ public class Neat {
 	int maxStag;
 	int inCount;
 	int outCount;
+	LList<LList<Double>> inputs;
+	LList<Integer> outputs;
 	
-	Neat(){
-		
+	public Neat(){
+		run();
+	}
+	
+	public void run(){
+		for(int i = 0; i < inputs.length(); i++){
+			NYC.activate(inputs.getValue(), outputs.getValue());
+			inputs.next();
+			outputs.next();
+		}
 	}
 }

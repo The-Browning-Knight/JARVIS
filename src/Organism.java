@@ -9,7 +9,11 @@ public class Organism {
 		spec = sp;
 	}
 	
-	public Float activate(LList<Double> in, ){
-		return brain.activate(in);
+	public void activate(LList<Double> in, int result){
+		if(result == brain.activate(in)){
+			brain.fitness += 1;
+		} else {
+			brain.fitness -=1;
+		}
 	}
 }

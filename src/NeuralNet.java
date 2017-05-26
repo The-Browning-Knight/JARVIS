@@ -47,7 +47,7 @@ public class NeuralNet {
 		return null;
 	}
 
-	public double activate(LList<Float> in){
+	public double activate(LList<Double> in){
 		nodes.moveToStart();
 		Node temp = nodes.getValue();
 		//We could speed this up by assuming that it's at the end

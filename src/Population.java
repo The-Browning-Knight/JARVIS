@@ -1,11 +1,11 @@
 public class Population {
 	List<Generation> gens;
 	
-	Population(){
+	public Population(){
 		
 	}
 	
-	activate(){
-		
+	public void activate(LList<Double> in, int result){
+		gens.append(gens.getValue().activate(in, result));
 	}
 }

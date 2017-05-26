@@ -4,19 +4,19 @@ public class Node {
 	//going backwards
 	LList<Connection> children;
 	int name;
-	Float value;
+	Double value;
 	
 	public Node(int t, int n){
 		type = t;
 		name = n;
 		children = new LList<Connection>();
-		value = 0f;
+		value = 0.0;
 	}
 	
 	public Node(NGene g){
 		name = g.name;
 		children = new LList<Connection>();
 		type = g.type;
-		value = 0f;
+		value = 0.0;
 	}
 }

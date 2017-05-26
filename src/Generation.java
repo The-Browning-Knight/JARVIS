@@ -23,7 +23,12 @@ public class Generation {
 		maxStag = ms;
 	}
 	
-	
+	public Generation activate(LList<Double> in, int result){
+		for(int i = 0; i < members.length(); i++){
+			members.getValue().activate(in, result);
+		}
+		return reproduce();
+	}
 
 	public Generation reproduce(){
 		LList<Species> temp = new LList<Species>();
@@ -109,6 +114,11 @@ public class Generation {
 				all.next();
 			}
 			all.moveToPos(i);
+		}
+		all.moveToStart();
+		for(int i = 0; i < all.length(); i++){
+			all.getValue().brain = new NeuralNet(all.getValue().dna);
+			all.next();
 		}
 
 		boolean temp3;

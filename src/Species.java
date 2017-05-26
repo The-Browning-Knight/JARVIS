@@ -82,6 +82,13 @@ public class Species {
 		}
 		return out;
 	}
+	
+	public void activate(LList<Double> in, int result){
+		for(int i = 0; i < members.length(); i++){
+			members.getValue().activate(in, result);
+			members.next();
+		}
+	}
 
 	public Species reproduce(){
 		members.moveToStart();
