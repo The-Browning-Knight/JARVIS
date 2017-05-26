@@ -9,7 +9,6 @@ from numpy.linalg import lstsq
 from directkeys import PressKey, ReleaseKey, W, A, S, D
 from statistics import mean
 from getkeys import key_check
-from grabscreen import grab_screen
 import os
 
 # READ ANY KEYS PRESSED
@@ -224,8 +223,8 @@ def main():
     
     while True:
         #0,40,800,640
-        #screen =  np.array(ImageGrab.grab(bbox=(200, 300, 800, 600)))
-        screen =  grab_screen(region=(0, 40, 800, 640))
+        screen =  np.array(ImageGrab.grab(bbox=(200, 300, 800, 600)))
+        #screen =  grab_screen(region=(0, 40, 800, 640))
         screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
         # resize the screen to decrease computational time
         screen = cv2.resize(screen, (80, 60))
