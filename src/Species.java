@@ -9,8 +9,10 @@ public class Species {
 	double disChance;
 	double noCrossChance;
 	int champClones;
+	LList<Double> prevFit;
+	boolean enabled;
 
-	Species(float c1, float c2, float c3, float r1, float r2, float r3, float r4, int ct){
+	public Species(float c1, float c2, float c3, float r1, float r2, float r3, float r4, int ct){
 		distance1 = c1;
 		distance2 = c2;
 		distance3 = c3;
@@ -19,6 +21,8 @@ public class Species {
 		disChance = r3;
 		noCrossChance = r4;
 		champClones = ct;
+		prevFit = new LList<Double>();
+		enabled = true;
 	}
 
 	public Genome comGene(Genome a, Genome b){
@@ -127,7 +131,7 @@ public class Species {
 				members.moveToPos(temp1);
 				temp2  = members.getValue().dna;
 				members.moveToPos(i);
-				for(int j = 0; j < getFitness(); j++){
+				for(int j = 0; j < getTotalFitness(); j++){
 					members.append((new Organism(comGene(members.getValue().dna, temp2), this)));
 				}
 			}
@@ -135,8 +139,8 @@ public class Species {
 		return this;
 	}
 
-	public float getFitness(){
-		float temp = 0f;
+	public double getTotalFitness(){
+		double temp = 0.0;
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			temp  += members.getValue().brain.fitness/findDistance(members.getValue().dna);
