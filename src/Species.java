@@ -12,7 +12,8 @@ public class Species {
 	LList<Double> prevFit;
 	boolean enabled;
 
-	public Species(float c1, float c2, float c3, float r1, float r2, float r3, float r4, int ct){
+	public Species(double c1, double c2, double c3, double r1, double r2, double r3, double r4, int ct){
+		members = new LList<Organism>();
 		distance1 = c1;
 		distance2 = c2;
 		distance3 = c3;

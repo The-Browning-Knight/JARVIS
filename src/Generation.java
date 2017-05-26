@@ -6,23 +6,43 @@ public class Generation {
 	double prob1, prob2;
 	double interMate;
 	double maxDis;
-	float c1,  c2,  c3,  r1,  r2,  r3,  r4;
+	double c1,  c2,  c3,  r1,  r2,  r3,  r4;
 	int ct;
 	double minFitGain;
 	int maxStag;
 
-	public Generation (LList<Gene> i, LList<Species> m, double p1, double p2, double im, double mD, double mfg, int ms){
+		public Generation (int inCount, int outCount, double ca1, double ca2, double ca3, double ra1, double ra2, double ra3, double ra4, int cat, double p1, double p2, double im, double mD, double mfg, int ms){
 		fullyEvolved = new LList<Species>();
-		members = m;
-		innovList = i;
+		members = new LList<Species>();
+		members.append(new Species(ca1, ca2, ca3, ra1, ra2, ra3, ra4, cat));
+		Genome temp = new Genome();
+		Gene temp1;
+		for(int i = 0; i < inCount; i++){
+			temp1 = new NGene(i,0,i+1);
+			temp.genes.append(temp1);
+		}
+		for(int i = 0; i < outCount; i++){
+			temp1 = new NGene(i+inCount,2,i+inCount+1);
+			temp.genes.append(temp1);
+		}
+		members.getValue().members.append(new Organism(temp, members.getValue()));
+		innovList = new LList<Gene>();
 		prob1 = p1;
 		prob2 = p2;
+		c1 = ca1;
+		c2 = ca2;
+		c3 = ca3;
+		r1 = ra1;
+		r2 = ra2;
+		r3 = ra3;
+		r4 = ra4;
+		ct = cat;
 		interMate = im;
 		maxDis = mD;
 		minFitGain = mfg;
 		maxStag = ms;
 	}
-	
+
 	public Generation activate(LList<Double> in, int result){
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().activate(in, result);
@@ -93,7 +113,7 @@ public class Generation {
 
 		LList<Organism> all = new LList<Organism>();
 
-		//Insert interspecial reproduction 
+		//Insert interspecial reproduction
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().members.moveToStart();
@@ -132,7 +152,7 @@ public class Generation {
 		double min;
 		double temp6;
 		for(int i = 0; i < all.length(); i++){
-			min = 0.0;				
+			min = 0.0;
 			temp3 = false;
 			members.moveToStart();
 			for(int j = 0; j < members.length(); j++){
