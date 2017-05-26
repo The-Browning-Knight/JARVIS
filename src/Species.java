@@ -1,3 +1,5 @@
+import java.lang.reflect.Member;
+
 public class Species {
 	Organism prevMember;
 	LList<Organism> members;
@@ -168,8 +170,11 @@ public class Species {
 		int excess = 0;
 		int disjoint = 0;
 		double weightDiff = 0f;
+		members.prev();
+		prevMember = members.getValue();
+		members.next();
 		prevMember.dna.genes.moveToPos(prevMember.dna.genes.length()-1);
-		g.genes.moveToPos(g.genes.length()-1);
+		g.genes.moveToEnd();
 		if(g.genes.getValue().hismark() < prevMember.dna.genes.getValue().hismark()){
 			max = g.genes.getValue().hismark();
 		}else{
