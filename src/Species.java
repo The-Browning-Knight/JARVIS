@@ -160,7 +160,7 @@ public class Species {
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			temp  += members.getValue().brain.fitness/findDistance(members.getValue().dna);
-			members.moveToPos(i);
+			members.next();
 		}
 		return temp;
 	}
@@ -173,8 +173,10 @@ public class Species {
 		members.prev();
 		prevMember = members.getValue();
 		members.next();
-		prevMember.dna.genes.moveToPos(prevMember.dna.genes.length()-1);
+		prevMember.dna.genes.moveToEnd();
+		prevMember.dna.genes.prev();
 		g.genes.moveToEnd();
+		g.genes.prev();
 		if(g.genes.getValue().hismark() < prevMember.dna.genes.getValue().hismark()){
 			max = g.genes.getValue().hismark();
 		}else{
@@ -183,23 +185,28 @@ public class Species {
 		boolean temp;
 		g.genes.moveToStart();
 		for(int i = 0; i < g.genes.length(); i++){
-			if(g.genes.getValue().hismark() > max){
-				excess++;
-			} else {
-				prevMember.dna.genes.moveToStart();
-				temp = true;
-				for(int j = 0; j< prevMember.dna.genes.length(); j++){
-					if(prevMember.dna.genes.getValue().hismark() == g.genes.getValue().hismark()){
-						if(prevMember.dna.genes.getValue().geneType() == 0){
-							weightDiff += Math.abs(((CGene)prevMember.dna.genes.getValue()).weight - ((CGene)g.genes.getValue()).weight);						}
-						temp = false;
+			
+			if (g.genes.getValue() != null) {
+				
+				if(g.genes.getValue().hismark() > max){
+					excess++;
+				} else {
+					prevMember.dna.genes.moveToStart();
+					temp = true;
+					for(int j = 0; j< prevMember.dna.genes.length(); j++){
+						if(prevMember.dna.genes.getValue().hismark() == g.genes.getValue().hismark()){
+							if(prevMember.dna.genes.getValue().geneType() == 0){
+								weightDiff += Math.abs(((CGene)prevMember.dna.genes.getValue()).weight - ((CGene)g.genes.getValue()).weight);						}
+							temp = false;
+						}
+						if(temp){
+							disjoint++;
+						}
+						prevMember.dna.genes.next();
 					}
-					if(temp){
-						disjoint++;
-					}
-					prevMember.dna.genes.next();
-				}
+				}				
 			}
+
 			g.genes.next();
 		}
 		return ((excess * distance1 + disjoint * distance2)/(prevMember.dna.genes.length() + g.genes.length()) + weightDiff * distance3);
