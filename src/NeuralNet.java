@@ -47,7 +47,7 @@ public class NeuralNet {
 		return null;
 	}
 
-	public Float activate(LList<Float> in){
+	public Double activate(LList<Double> in){
 		nodes.moveToStart();
 		Node temp = nodes.getValue();
 		//We could speed this up by assuming that it's at the end
@@ -68,7 +68,7 @@ public class NeuralNet {
 		return activateHelp(temp); 
 	}
 
-	private Float activateHelp(Node n){
+	private Double activateHelp(Node n){
 		if(n.type == 0){
 			return n.value;
 		}

@@ -8,4 +8,8 @@ public class Organism {
 		brain = new NeuralNet(g);
 		spec = sp;
 	}
+	
+	public Float activate(LList<Double> in, Double in){
+		brain.activate(in);
+	}
 }
