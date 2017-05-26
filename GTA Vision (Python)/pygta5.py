@@ -8,6 +8,39 @@ from numpy import ones,vstack
 from numpy.linalg import lstsq
 from directkeys import PressKey, ReleaseKey, W, A, S, D
 from statistics import mean
+from getkeys import key_check
+from grabscreen import grab_screen
+import os
+
+# READ ANY KEYS PRESSED
+def keys_to_output(keys):
+    # possible keys: [A, W, D]
+    # A = turn left
+    # W = go straight
+    # D = turn right
+    output = [0,0,0]
+
+    if 'A' in keys:
+        output[0] = 1
+    elif 'W' in keys:
+        output[1] = 1
+    else:
+        output[2] = 1
+
+    return output
+
+# Create a numpy file
+file_name = 'training_data.npy'
+
+if os.path.isfile(file_name):
+    print('File exists.  Loading previous data...')
+    training_data = list(np.load(file_name))
+else:
+    print('File does not exist.  Starting fresh...') 
+    training_data = []
+
+
+
 
 
 # REGION OF INTEREST
@@ -34,7 +67,7 @@ def draw_lanes(img, lines, color=[0, 255, 255], thickness=3):
         # finds the maximum y value for a lane marker 
         # (since we cannot assume the horizon will always be at the same point.)
 
-        ys = []  
+        ys = []
         for i in lines:
             for ii in i:
                 ys += [ii[1],ii[3]]
@@ -180,6 +213,10 @@ def right():
 #MAIN FUNCTION
 
 def main():
+    # COUNTDOWN
+    for i in list(range(4)) [::-1]:
+        print(i+1)
+        time.sleep(1)
     last_time = time.time()
 
     # To be used by Random Player
@@ -187,20 +224,36 @@ def main():
     
     while True:
         #0,40,800,640
-        screen =  np.array(ImageGrab.grab(bbox=(200, 300, 800, 600)))
-        print('Frame took {} seconds'.format(time.time()-last_time))
+        #screen =  np.array(ImageGrab.grab(bbox=(200, 300, 800, 600)))
+        screen =  grab_screen(region=(0, 40, 800, 640))
+        screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+        # resize the screen to decrease computational time
+        screen = cv2.resize(screen, (80, 60))
+        keys = key.check()
+        output = keys_to_output(keys)
+
+        # Append data to file
+        training_data.append([screen, output])
+        
+        #print('Frame took {} seconds'.format(time.time()-last_time))
         last_time = time.time()
-        new_screen,original_image, m1, m2 = process_img(screen)
-        cv2.imshow('window', new_screen)
+
+        # indicate whenever 500 new data are added
+        if len(training_data) % 500 == 0:
+            print(len(training_data))
+            np.save(file_name, training_data)
+        
+        #new_screen,original_image, m1, m2 = process_img(screen)
+        #cv2.imshow('window', new_screen)
         #cv2.imshow('window2',cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
 
 # Random Player - randomly chooses a direction to move in
 
-        # Generate random integer every time
-        rand = random.randint(0, len(listOfMoves)-1)
-
-        # Execute the random move
-        listOfMoves[rand]
+##        # Generate random integer every time
+##        rand = random.randint(0, len(listOfMoves)-1)
+##
+##        # Execute the random move
+##        listOfMoves[rand]
 
 
 # Greedy Player - chooses the move guaranteed to bring the vehicle in between the driving lanes
