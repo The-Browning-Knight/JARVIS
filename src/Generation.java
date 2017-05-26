@@ -17,16 +17,20 @@ public class Generation {
 		members = new LList<Species>();
 		members.append(new Species(ca1, ca2, ca3, ra1, ra2, ra3, ra4, cat));
 		Genome temp = new Genome();
+		Genome temp2 = new Genome();
 		Gene temp1;
 		for(int i = 0; i < inCount; i++){
 			temp1 = new NGene(i,0,i+1);
 			temp.genes.append(temp1);
+			temp2.genes.append(temp1);
 		}
 		for(int i = 0; i < outCount; i++){
 			temp1 = new NGene(i+inCount,2,i+inCount+1);
 			temp.genes.append(temp1);
+			temp2.genes.append(temp1);
 		}
 		members.getValue().members.append(new Organism(temp, members.getValue()));
+		members.getValue().prevMember = new Organism(temp2, members.getValue());
 		innovList = new LList<Gene>();
 		prob1 = p1;
 		prob2 = p2;
@@ -49,18 +53,23 @@ public class Generation {
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().activate(in, result, fitGradient);
 		}
+		members.getValue().prevFit.append(members.getValue().getTotalFitness());
 		return reproduce();
 	}
 
 	public Generation reproduce(){
 		LList<Species> temp = new LList<Species>();
+		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
+			members.getValue().prevFit.moveToEnd();
+			members.getValue().prevFit.prev();
+			double temp8 = members.getValue().prevFit.getValue();
 			if(members.getValue().prevFit.length() > maxStag){
 				members.getValue().prevFit.moveToPos(members.length() - 1 - maxStag);
 			} else {
 				members.getValue().prevFit.moveToStart();
 			}
-			if(members.getValue().prevFit.getValue() - members.getValue().prevFit.getValue() < minFitGain){
+			if(temp8 - members.getValue().prevFit.getValue() < minFitGain){
 				members.append(members.getValue().reproduce());
 			} else {
 				members.getValue().enabled = false;
@@ -146,7 +155,6 @@ public class Generation {
 		boolean temp3;
 		//Speciation and prevMember
 		for(int i = 0; i < members.length(); i++){
-			members.getValue().prevFit.append(members.getValue().getTotalFitness());
 			members.getValue().members.clear();
 		}
 		members.moveToStart();

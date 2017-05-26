@@ -139,6 +139,7 @@ public class Species {
 				members.moveToPos(temp1);
 				temp2  = members.getValue().dna;
 				members.moveToPos(i);
+				System.out.println(temp2 == null);
 				for(int j = 0; j < getTotalFitness(); j++){
 					members.append((new Organism(comGene(members.getValue().dna, temp2), this)));
 				}
@@ -158,7 +159,7 @@ public class Species {
 	}
 
 	public double findDistance(Genome g){
-		int max;
+		int max = 0;
 		int excess = 0;
 		int disjoint = 0;
 		double weightDiff = 0f;
@@ -180,10 +181,9 @@ public class Species {
 				for(int j = 0; j< prevMember.dna.genes.length(); j++){
 					if(prevMember.dna.genes.getValue().hismark() == g.genes.getValue().hismark()){
 						if(prevMember.dna.genes.getValue().geneType() == 0){
-							weightDiff += Math.abs(((CGene)prevMember.dna.genes.getValue()).weight - ((CGene)g.genes.getValue()).weight);
-						}
+							weightDiff += Math.abs(((CGene)prevMember.dna.genes.getValue()).weight - ((CGene)g.genes.getValue()).weight);						}
 						temp = false;
-					} 
+					}
 					if(temp){
 						disjoint++;
 					}

@@ -4,6 +4,7 @@ public class NeuralNet {
 
 	public NeuralNet(Genome g){
 		nodes = new LList<Node>();
+		g.genes.moveToStart();
 		for(int i = 0; i < g.genes.length(); i++){
 			if(g.genes.getValue().geneType() == 1) {
 				nodes.append(new Node((NGene)g.genes.getValue()));
