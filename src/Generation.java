@@ -22,8 +22,8 @@ public class Generation {
 		minFitGain = mfg;
 		maxStag = ms;
 	}
-	
-	
+
+
 
 	public Generation reproduce(){
 		LList<Species> temp = new LList<Species>();
@@ -77,9 +77,51 @@ public class Generation {
 
 				if (random < prob2) {
 
+					LList<Gene> curr_genes = curr_members.getValue().dna.genes;
+					int nodeCount = 0;
+					for(int n = 0; n < curr_genes.length(); n++){
+						if(curr_genes.getValue().geneType() == 1){
+							nodeCount++;
+						}
+					}
 
+					int[][] combos = new int[nodeCount][nodeCount];
 
+					for(int n = 0; n < nodeCount; n++){
+						for(int m = 0; m < nodeCount; m++){
+							combos[i][j] = 1;
+						}
+					}
+
+					for(int n = 0; n < curr_genes.length(); n++){
+						if(curr_genes.getValue().geneType() == 0){
+							combos[((CGene)curr_genes.getValue()).in][((CGene)curr_genes.getValue()).out] = 0;
+						}
+					}
+
+					int sum = 0;
+					for(int n = 0; n < nodeCount; n++){
+						for(int m = 0; m < nodeCount; m++){
+							if(combos[i][j] == 1){
+								sum++;
+							}
+						}
+					}
+
+					int whichConn = (int)Math.floor(sum * Math.random());
+
+					for(int n = 0; n < nodeCount; n++){
+						for(int m = 0; m < nodeCount; m++){
+							if(whichConn == 0){
+								Gene tempGene = new CGene(n,m, Math.random(),true,innovList.length()+1);
+								innovList.append(tempGene);
+								curr_members.getValue().dna.genes.append(tempGene);
+							}
+							whichConn--;
+						}
+					}
 				}
+				curr_members.next();
 
 			}
 
@@ -88,7 +130,7 @@ public class Generation {
 
 		LList<Organism> all = new LList<Organism>();
 
-		//Insert interspecial reproduction 
+		//Insert interspecial reproduction
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().members.moveToStart();
@@ -122,7 +164,7 @@ public class Generation {
 		double min;
 		double temp6;
 		for(int i = 0; i < all.length(); i++){
-			min = 0.0;				
+			min = 0.0;
 			temp3 = false;
 			members.moveToStart();
 			for(int j = 0; j < members.length(); j++){
