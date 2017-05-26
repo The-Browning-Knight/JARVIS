@@ -228,7 +228,7 @@ def main():
         screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
         # resize the screen to decrease computational time
         screen = cv2.resize(screen, (80, 60))
-        keys = key.check()
+        keys = key_check()
         output = keys_to_output(keys)
 
         # Append data to file
