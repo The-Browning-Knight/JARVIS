@@ -11,6 +11,7 @@ from statistics import mean
 from PIL import ImageGrab
 #from grabscreen import grab_screen
 import os
+import subprocess
 
 # READ ANY KEYS PRESSED
 def keys_to_output(keys):
@@ -248,6 +249,11 @@ def main():
         new_screen,original_image, m1, m2 = process_img(screen)
         #cv2.imshow('window', new_screen)
         cv2.imshow('window2',cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)            # prints out Hough lines
+
+        # input image matrix values into java file as command line arguments
+
+        img_str = cv2.imencode('.jpg', new_screen)[1].tostring()
+        subprocess.call(['java', '../src/Run', img_str)    
 
         #cv2.imshow('window',cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
         if cv2.waitKey(25) & 0xFF == ord('q'):
