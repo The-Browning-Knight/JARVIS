@@ -1,3 +1,5 @@
+// blueprint class for mutation in CGene
+
 public class Innovation {
 		int hismark;
 		boolean enabled;

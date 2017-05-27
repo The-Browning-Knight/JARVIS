@@ -1,3 +1,5 @@
+// connection blueprint for use in CGene
+
 public class Connection {
 	Node in;
 	Node out;

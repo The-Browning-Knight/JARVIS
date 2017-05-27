@@ -1,3 +1,5 @@
+// implementation class for connection gene
+
 public class CGene extends Gene{
 	int hismark;
 	private boolean enabled;

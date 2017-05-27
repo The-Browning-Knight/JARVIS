@@ -1,3 +1,5 @@
+// a group of species that reproduces both intra and interspecies
+
 public class Generation {
 
 	LList<Species> members;
