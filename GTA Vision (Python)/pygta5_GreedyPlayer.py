@@ -29,19 +29,6 @@ def keys_to_output(keys):
 
     return output
 
-# Create a numpy file
-##file_name = 'training_data.npy'
-##
-##if os.path.isfile(file_name):
-##    print('File exists.  Loading previous data...')
-##    training_data = list(np.load(file_name))
-##else:
-##    print('File does not exist.  Starting fresh...') 
-##    training_data = []
-
-
-
-
 
 # REGION OF INTEREST
 # cuts a region of the screen to reduce computation time; this screen is meant to hold driving lanes
@@ -190,7 +177,6 @@ def process_img(image):
 
     return processed_img,original_image, m1, m2
 
-
 # DIRECTIONS
 
 t_time = 0.09
@@ -215,11 +201,12 @@ def right():
     ReleaseKey(D)
 
 
+
+
 #MAIN FUNCTION
 
 def main():
-    
-    # COUNTDOWN
+# COUNTDOWN
     for i in list(range(20)) [::-1]:
         print(i+1)
         time.sleep(1)
@@ -227,27 +214,23 @@ def main():
     
     while True:
         screen = np.array(ImageGrab.grab(bbox=(0, 40, 800, 640)))
-        #screen =  grab_screen(region=(0, 40, 800, 640))
-        #screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
-        # resize the screen to decrease computational time
-        #screen = cv2.resize(screen, (80, 60))
-        #keys = key_check()
-        #output = keys_to_output(keys)
 
-        # Append data to file
-        #training_data.append([screen, output])
-        
-        #print('Frame took {} seconds'.format(time.time()-last_time))
         last_time = time.time()
 
-        # indicate whenever 500 new data are added
-        #if len(training_data) % 500 == 0:
-        #    print(len(training_data))
-        #    np.save(file_name, training_data)
-        
         new_screen,original_image, m1, m2 = process_img(screen)
-        #cv2.imshow('window', new_screen)
-        cv2.imshow('window2',cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)            # prints out Hough lines
+
+        cv2.imshow('window2',cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
+
+# Greedy Player - chooses the move guaranteed to bring the vehicle in between the driving lanes
+#                 and thus this moves provides the best score solely on that move
+        # if lines appear to left of car
+        if m1 < 0 and m2 < 0:
+            right()
+        # if lines appear to right of car
+        elif m1 > 0  and m2 > 0:
+            left()
+        else:
+            straight()
 
         #cv2.imshow('window',cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
         if cv2.waitKey(25) & 0xFF == ord('q'):
