@@ -12,20 +12,20 @@ public class Generation {
 	int maxStag;
 	double fitGradient;
 
-		public Generation (double fg, int inCount, int outCount, double ca1, double ca2, double ca3, double ra1, double ra2, double ra3, double ra4, int cat, double p1, double p2, double im, double mD, double mfg, int ms){
+	public Generation (double fg, int inCount, int outCount, double ca1, double ca2, double ca3, double ra1, double ra2, double ra3, double ra4, int cat, double p1, double p2, double im, double mD, double mfg, int ms){
 		fullyEvolved = new LList<Species>();
 		members = new LList<Species>();
 		members.append(new Species(ca1, ca2, ca3, ra1, ra2, ra3, ra4, cat));
 		Genome temp = new Genome();
 		Genome temp2 = new Genome();
-		Gene temp1;
+		// Gene temp1;
 		for(int i = 0; i < inCount; i++){
-			temp1 = new NGene(i,0,i+1);
+			Gene temp1 = new NGene(i,0,i+1);
 			temp.genes.append(temp1);
 			temp2.genes.append(temp1);
 		}
 		for(int i = 0; i < outCount; i++){
-			temp1 = new NGene(i+inCount,2,i+inCount+1);
+			Gene temp1 = new NGene(i+inCount,2,i+inCount+1);
 			temp.genes.append(temp1);
 			temp2.genes.append(temp1);
 		}
@@ -48,17 +48,20 @@ public class Generation {
 		minFitGain = mfg;
 		maxStag = ms;
 	}
+	
+	int activationCount = 0;
 
 	public Generation activate(LList<Double> in, Double result){
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().activate(in, result, fitGradient);
-		}
+			System.out.println("ACTIVATION COUNT : " + activationCount);
+		}		
 		members.getValue().prevFit.append(members.getValue().getTotalFitness());
+		activationCount++;
 		return reproduce();
 	}
 
 	public Generation reproduce(){
-		LList<Species> temp = new LList<Species>();
 		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().prevFit.moveToEnd();
@@ -76,8 +79,6 @@ public class Generation {
 				fullyEvolved.append(members.getValue());
 			}
 		}
-
-		members = temp;
 
 		for(int i = 0; i < members.length(); i++){
 
@@ -107,14 +108,56 @@ public class Generation {
 
 					innovList.append(innov);
 
+					curr_members.getValue().dna.genes.append(innov);
+
 				}
 
 				random = Math.random();
 
 				if (random < prob2) {
+					int nodeCount = 0;
 
+					for(int n = 0; n < curr_members.getValue().dna.genes.length(); n++){
+						if(curr_members.getValue().dna.genes.getValue().geneType() == 1){
+							nodeCount++;
+						}
+					}
 
+					int[][] poss = new int[nodeCount][nodeCount];
+					for(int n = 0; n < nodeCount; n++){
+						for(int m = 0; m < nodeCount; m++){
+							poss[n][m] = 1;
+						}
+					}
 
+					for(int n = 0; n < curr_members.getValue().dna.genes.length(); n++){
+						if(curr_members.getValue().dna.genes.getValue().geneType() == 0){
+							poss[((CGene)curr_members.getValue().dna.genes.getValue()).in][((CGene)curr_members.getValue().dna.genes.getValue()).out] = 0;
+						}
+					}
+					
+					int sum = 0;
+					
+					for(int n = 0; n < nodeCount; n++){
+						for(int m = 0; m < nodeCount; m++){
+								sum += poss[n][m];
+						}
+					}
+					
+					int temp10 = (int)(Math.floor(sum*Math.random()));
+					
+					for(int n = 0; n < nodeCount; n++){
+						for(int m = 0; m < nodeCount; m++){
+								if(temp10 == 0){
+									Gene innov = new CGene(n, m, Math.random(), true, innovList.length() + 1);
+
+									innovList.append(innov);
+
+									curr_members.getValue().dna.genes.append(innov);
+								}
+								temp10--;
+						}
+					}
 				}
 
 			}
@@ -123,12 +166,16 @@ public class Generation {
 		}
 
 		LList<Organism> all = new LList<Organism>();
+		
 
 		//Insert interspecial reproduction
 		members.moveToStart();
+		System.out.println("member length " + members.length());	
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().members.moveToStart();
+			System.out.println("woman where 2");			
 			for(int j = 0; j < members.getValue().members.length(); j++){
+				System.out.println("yo whats good");
 				all.append(members.getValue().members.getValue());
 			}
 		}
@@ -139,6 +186,7 @@ public class Generation {
 			for(int j = 0; j < all.length(); j++){
 				if(i != j){
 					if(Math.random() < interMate){
+						
 						all.append(new Organism(all.getValue().spec.comGene(all.getValue().dna, temp1.dna), null));
 					}
 				}
@@ -161,11 +209,13 @@ public class Generation {
 		Species temp5 = members.getValue();
 		double min;
 		double temp6;
+		all.moveToStart();
 		for(int i = 0; i < all.length(); i++){
 			min = 0.0;
 			temp3 = false;
 			members.moveToStart();
 			for(int j = 0; j < members.length(); j++){
+				System.out.println(all.getValue() == null);
 				temp6 = all.getValue().spec.findDistance(members.getValue().prevMember.dna);
 				if(temp6 < maxDis){
 					if(temp6 < min){

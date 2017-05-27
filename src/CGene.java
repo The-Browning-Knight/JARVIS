@@ -5,7 +5,7 @@ public class CGene extends Gene{
 	int in;
 	int out;
 	
-	public CGene(int i, int o, float w, boolean e, int h){
+	public CGene(int i, int o, double w, boolean e, int h){
 		in = i;
 		out = o;
 		weight = w;
