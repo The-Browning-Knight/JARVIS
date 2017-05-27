@@ -5,8 +5,4 @@ public class Genome {
 	public Genome(){
 		genes = new LList<Gene>();
 	}
-	
-	public void sort(){
-		genes = MergeSort.sort(genes);
-	}
 }

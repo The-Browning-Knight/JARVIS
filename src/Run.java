@@ -1,5 +1,6 @@
 public class Run {
 	public static void main(String[] args){
+		//Parameters that define NEAT growth
 		int inCount = 3;
 		int outCount = 1;
 		double compatibility1 = 1.0;
@@ -14,14 +15,11 @@ public class Run {
 		double linkMutChance = 0.05;
 		double interMateChance = 0.001;
 		
-		//?
 		double maxDis = 100;
 		
-		//?
 		double minFitGain = 0.01;
 		int maxStag = 15;
 		
-		//?
 		double fitGradient = 1.0;
 		LList<LList<Double>> inputs = new LList<LList<Double>>();
 		LList<Double> outputs = new LList<Double>();

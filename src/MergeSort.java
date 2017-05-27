@@ -1,12 +1,12 @@
 
 public class MergeSort {
 
-	static LList<Gene> sort(LList<Gene> a){
+	static LList<Organism> sort(LList<Organism> a){
 
 		if(a.length() > 2){
 			int i;
-			LList<Gene> out1 = new LList<Gene>();
-			LList<Gene> out2 = new LList<Gene>();
+			LList<Organism> out1 = new LList<Organism>();
+			LList<Organism> out2 = new LList<Organism>();
 			a.moveToStart();
 			for(i = 0; i < a.length()/2; i++){
 				out1.append(a.getValue());
@@ -20,9 +20,9 @@ public class MergeSort {
 		}
 		if(a.length() == 2){
 			a.moveToStart();
-			int temp = a.getValue().hismark();
+			double temp = a.getValue().brain.fitness;
 			a.next();
-			if(a.getValue().hismark() < temp) {
+			if(a.getValue().brain.fitness < temp) {
 				a.moveToStart();
 				a.append(a.remove());
 				return a;
@@ -34,8 +34,8 @@ public class MergeSort {
 		}
 	}
 
-	static LList<Gene> merge(LList<Gene> a, LList<Gene> b){
-		LList<Gene> output = new LList<Gene>();
+	static LList<Organism> merge(LList<Organism> a, LList<Organism> b){
+		LList<Organism> output = new LList<Organism>();
 		a.moveToStart();
 		b.moveToStart();
 
@@ -48,7 +48,7 @@ public class MergeSort {
 					output.append(a.getValue());
 					a.next();
 				} else {
-					if(a.getValue().hismark() < b.getValue().hismark()){
+					if(a.getValue().brain.fitness < b.getValue().brain.fitness){
 						output.append(a.getValue());
 						a.next();
 					} else {
