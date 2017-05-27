@@ -33,10 +33,14 @@ public class Species {
 		int temp;
 		a.genes.moveToPos(a.genes.length() - 1); 
 		b.genes.moveToPos(b.genes.length() - 1);
-		if(a.genes.getValue().hismark() > b.genes.getValue().hismark()){
+		if(b.genes.getValue() != null){
+			if(a.genes.getValue().hismark() > b.genes.getValue().hismark()){
+				temp = a.genes.getValue().hismark();
+			}else{
+				temp = b.genes.getValue().hismark();
+			}
+		} else {
 			temp = a.genes.getValue().hismark();
-		}else{
-			temp = b.genes.getValue().hismark();
 		}
 		Gene temp1 = null;
 		Gene temp2 = null;
@@ -85,8 +89,9 @@ public class Species {
 		}
 		return out;
 	}
-	
+
 	public void activate(LList<Double> in, Double result, Double fg){
+		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().activate(in, result, fg);
 			members.next();
@@ -156,7 +161,7 @@ public class Species {
 	public double getTotalFitness(){
 		double temp = 0.0;
 		members.moveToStart();
-		System.out.println("Members length!!!!! " + members.length());
+		//System.out.println("Members length!!!!! " + members.length());
 		for(int i = 0; i < members.length(); i++){
 			//System.out.println(members.getValue().dna.genes.length());
 			members.next();
@@ -181,21 +186,21 @@ public class Species {
 		g.genes.moveToEnd();
 		g.genes.prev();
 		if (g.genes.getValue() != null) {
-			
+
 			if(g.genes.getValue().hismark() < prevMember.dna.genes.getValue().hismark()){
 				max = g.genes.getValue().hismark();
 			}else{
 				max = prevMember.dna.genes.getValue().hismark();
 			}		
-			
+
 		}
 
 		boolean temp;
 		g.genes.moveToStart();
 		for(int i = 0; i < g.genes.length(); i++){
-			
+
 			if (g.genes.getValue() != null) {
-				
+
 				if(g.genes.getValue().hismark() > max){
 					excess++;
 				} else {

@@ -26,14 +26,33 @@ public class Run {
 		LList<LList<Double>> inputs = new LList<LList<Double>>();
 		LList<Double> outputs = new LList<Double>();
 		
-		inputs.append(new LList<Double>());
-		inputs.getValue().append(1.0);
-		inputs.getValue().append(1.0);
-		inputs.getValue().append(1.0);
+		LList<Double> temp = new LList<Double>();
+		LList<Double> temp1 = new LList<Double>();
+		LList<Double> temp2 = new LList<Double>();
 		
-		outputs.append(1.0);
+		temp.append(1.0);
+		temp.append(1.0);
+		temp.append(1.0);
+		inputs.append(temp);
+		outputs.append(3.0);
+		
+		temp1.append(1.0);
+		temp1.append(2.0);
+		temp1.append(3.0);
+		inputs.append(temp1);
+		outputs.append(6.0);
+		
+		/**
+		temp2.append(72.0);
+		temp2.append(11.0);
+		temp2.append(19.0);
+		inputs.append(temp2);
+		outputs.append(102.0);
+		**/
 		
 		Neat Darwin = new Neat(fitGradient, inCount, outCount, compatibility1, compatibility2, compatibility3, mutChance, uniChance, disChance, noCrossChance, cloneCount, nodeMutChance, linkMutChance, interMateChance, maxDis, minFitGain, maxStag);
 		Darwin.run(inputs, outputs);
+		
+		System.out.println(Darwin.NYC.gens.getValue().members.length());
 	}
 }

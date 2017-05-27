@@ -48,13 +48,13 @@ public class Generation {
 		minFitGain = mfg;
 		maxStag = ms;
 	}
-	
+
 	int activationCount = 0;
 
 	public Generation activate(LList<Double> in, Double result){
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().activate(in, result, fitGradient);
-			System.out.println("ACTIVATION COUNT : " + activationCount);
+			// System.out.println("ACTIVATION COUNT : " + activationCount);
 		}		
 		members.getValue().prevFit.append(members.getValue().getTotalFitness());
 		activationCount++;
@@ -62,8 +62,15 @@ public class Generation {
 	}
 
 	public Generation reproduce(){
+
+		//Checks for stagnation  and interspecies reproduction
 		members.moveToStart();
-		for(int i = 0; i < members.length(); i++){
+		//System.out.println("members length: " + members.length());
+
+		int initial_length = members.length();
+
+		for(int i = 0; i < initial_length; i++){
+			//System.out.println("loop count: " + i);
 			members.getValue().prevFit.moveToEnd();
 			members.getValue().prevFit.prev();
 			double temp8 = members.getValue().prevFit.getValue();
@@ -80,10 +87,13 @@ public class Generation {
 			}
 		}
 
+
+		members.moveToStart();
 		for(int i = 0; i < members.length(); i++){
 
 			LList<Organism> curr_members = members.getValue().members;
 
+			curr_members.moveToStart();
 			for (int j = 0; j < curr_members.length(); j++) {
 
 				double random = Math.random();
@@ -95,8 +105,9 @@ public class Generation {
 					NGene mostRecentNGene = null;
 
 					// iterate from end of innov and check type to find most recent NGene
-					innovList.moveToEnd();
+					innovList.moveToPos(innovList.length()-1);
 					for (int k = 0; k < innovList.length(); k++) {
+						//System.out.
 						if (innovList.getValue().geneType() == 1) {
 							mostRecentNGene = (NGene) innovList.getValue();
 							break;
@@ -104,11 +115,11 @@ public class Generation {
 						innovList.prev();
 					}
 
-					Gene innov = new NGene(mostRecentNGene.name + 1, 1, mostRecentNGene.hismark+1);
-
-					innovList.append(innov);
-
-					curr_members.getValue().dna.genes.append(innov);
+					if (mostRecentNGene != null) {
+						Gene innov = new NGene(mostRecentNGene.name + 1, 1, mostRecentNGene.hismark+1);	
+						innovList.append(innov);
+						curr_members.getValue().dna.genes.append(innov);
+					}					
 
 				}
 
@@ -116,6 +127,8 @@ public class Generation {
 
 				if (random < prob2) {
 					int nodeCount = 0;
+
+					//System.out.println("random prob2 is null? " + (curr_members.getValue() == null));
 
 					for(int n = 0; n < curr_members.getValue().dna.genes.length(); n++){
 						if(curr_members.getValue().dna.genes.getValue().geneType() == 1){
@@ -135,27 +148,27 @@ public class Generation {
 							poss[((CGene)curr_members.getValue().dna.genes.getValue()).in][((CGene)curr_members.getValue().dna.genes.getValue()).out] = 0;
 						}
 					}
-					
+
 					int sum = 0;
-					
+
 					for(int n = 0; n < nodeCount; n++){
 						for(int m = 0; m < nodeCount; m++){
-								sum += poss[n][m];
+							sum += poss[n][m];
 						}
 					}
-					
+
 					int temp10 = (int)(Math.floor(sum*Math.random()));
-					
+
 					for(int n = 0; n < nodeCount; n++){
 						for(int m = 0; m < nodeCount; m++){
-								if(temp10 == 0){
-									Gene innov = new CGene(n, m, Math.random(), true, innovList.length() + 1);
+							if(temp10 == 0){
+								Gene innov = new CGene(n, m, Math.random(), true, innovList.length() + 1);
 
-									innovList.append(innov);
+								innovList.append(innov);
 
-									curr_members.getValue().dna.genes.append(innov);
-								}
-								temp10--;
+								curr_members.getValue().dna.genes.append(innov);
+							}
+							temp10--;
 						}
 					}
 				}
@@ -166,16 +179,16 @@ public class Generation {
 		}
 
 		LList<Organism> all = new LList<Organism>();
-		
+
 
 		//Insert interspecial reproduction
 		members.moveToStart();
-		System.out.println("member length " + members.length());	
+		//System.out.println("member length " + members.length());	
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().members.moveToStart();
-			System.out.println("woman where 2");			
+			//System.out.println("woman where 2");			
 			for(int j = 0; j < members.getValue().members.length(); j++){
-				System.out.println("yo whats good");
+				//System.out.println("yo whats good");
 				all.append(members.getValue().members.getValue());
 			}
 		}
@@ -186,8 +199,9 @@ public class Generation {
 			for(int j = 0; j < all.length(); j++){
 				if(i != j){
 					if(Math.random() < interMate){
-						
-						all.append(new Organism(all.getValue().spec.comGene(all.getValue().dna, temp1.dna), null));
+						if(all.getValue().spec != null){
+							all.append(new Organism(all.getValue().spec.comGene(all.getValue().dna, temp1.dna), null));
+						}
 					}
 				}
 				all.next();
@@ -215,15 +229,17 @@ public class Generation {
 			temp3 = false;
 			members.moveToStart();
 			for(int j = 0; j < members.length(); j++){
-				System.out.println(all.getValue() == null);
-				temp6 = all.getValue().spec.findDistance(members.getValue().prevMember.dna);
-				if(temp6 < maxDis){
-					if(temp6 < min){
-						temp5 = members.getValue();
-						min = all.getValue().spec.findDistance(members.getValue().prevMember.dna);
-						temp3 = true;
-					}
+				if((members.getValue().prevMember != null) && (members.getValue().prevMember.dna != null) && (all.getValue().spec != null)){
+					temp6 = all.getValue().spec.findDistance(members.getValue().prevMember.dna);
+					if(temp6 < maxDis){
+						if(temp6 < min){
+							temp5 = members.getValue();
+							min = all.getValue().spec.findDistance(members.getValue().prevMember.dna);
+							temp3 = true;
+						}
+					}					
 				}
+
 				members.next();
 			}
 			all.getValue().spec = temp5;
