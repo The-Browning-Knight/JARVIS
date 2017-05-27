@@ -1,6 +1,6 @@
 public class CGene extends Gene{
-	int hismark;
-	private boolean enabled;
+	int hismark; // history mark for reference
+	private boolean enabled; // True when connection enabled
 	double weight;
 	int in;
 	int out;
@@ -14,8 +14,10 @@ public class CGene extends Gene{
 	}
 	
 	public int geneType(){
-		return 0;
+		return 0; // CGene defined as type 0, NGene is type 1
 	}
+	
+	// getters and setters
 	
 	public int hismark(){
 		return hismark;
@@ -29,11 +31,4 @@ public class CGene extends Gene{
 		enabled = a;
 	}
 	
-	/**public boolean equals(Gene g){
-		if(g.hismark == hismark && enabled == g.enabled && weight == g.weight){
-			return true;
-		}
-		return false;
-	}
-	*/
 }

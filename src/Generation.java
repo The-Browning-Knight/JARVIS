@@ -1,3 +1,6 @@
+// group of species
+// code for reproduction, both inter and intra species
+
 public class Generation {
 
 	LList<Species> members;
@@ -54,7 +57,6 @@ public class Generation {
 	public Generation activate(LList<Double> in, Double result){
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().activate(in, result, fitGradient);
-			// System.out.println("ACTIVATION COUNT : " + activationCount);
 		}		
 		members.getValue().prevFit.append(members.getValue().getTotalFitness());
 		activationCount++;
@@ -65,8 +67,7 @@ public class Generation {
 
 		//Checks for stagnation  and interspecies reproduction
 		members.moveToStart();
-		//System.out.println("members length: " + members.length());
-
+ 
 		int initial_length = members.length();
 
 		for(int i = 0; i < initial_length; i++){
@@ -128,8 +129,6 @@ public class Generation {
 				if (random < prob2) {
 					int nodeCount = 0;
 
-					//System.out.println("random prob2 is null? " + (curr_members.getValue() == null));
-
 					for(int n = 0; n < curr_members.getValue().dna.genes.length(); n++){
 						if(curr_members.getValue().dna.genes.getValue().geneType() == 1){
 							nodeCount++;
@@ -183,12 +182,9 @@ public class Generation {
 
 		//Insert interspecial reproduction
 		members.moveToStart();
-		//System.out.println("member length " + members.length());	
 		for(int i = 0; i < members.length(); i++){
 			members.getValue().members.moveToStart();
-			//System.out.println("woman where 2");			
 			for(int j = 0; j < members.getValue().members.length(); j++){
-				//System.out.println("yo whats good");
 				all.append(members.getValue().members.getValue());
 			}
 		}

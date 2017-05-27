@@ -1,3 +1,5 @@
+// blueprint class for mutations in Connection genes
+
 public class Innovation {
 		int hismark;
 		boolean enabled;

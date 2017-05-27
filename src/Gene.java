@@ -1,3 +1,5 @@
+// abstract blueprint class for reference by CGene and NGene
+
 public abstract class Gene {;
 	public abstract int geneType();
 	

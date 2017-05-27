@@ -1,3 +1,5 @@
+// class defining connections for use within CGene
+
 public class Connection {
 	Node in;
 	Node out;
